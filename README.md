@@ -54,6 +54,10 @@ Special Thanks
 Changelog Summary
 =================
 
+### v4.2.2b
+
+* Got select2 to work with dynamic inline formsets.
+
 ### v4.2.2
 
 * Misc fixes and enhancements - [61](https://github.com/applegrew/django-select2/pull/61), [64](https://github.com/applegrew/django-select2/issues/64).
