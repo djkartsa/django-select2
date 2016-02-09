@@ -54,7 +54,7 @@ Special Thanks
 Changelog Summary
 =================
 
-### v4.2.2b
+### v4.2.2b0
 
 * Got select2 to work with dynamic inline formsets.
 
