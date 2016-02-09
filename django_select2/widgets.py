@@ -195,7 +195,7 @@ class Select2Mixin(object):
         :rtype: :py:obj:`unicode`
         """
         if id_:
-            return render_js_script(self.render_inner_js_code(id_, *args))
+            return render_js_script(self.render_inner_js_code(id_, *args), id_)
         return u''
 
     def render_inner_js_code(self, id_, *args):
@@ -208,7 +208,8 @@ class Select2Mixin(object):
         options = dict(self.get_options())
         options = self.render_select2_options_code(options, id_)
 
-        return u'$("#%s").select2(%s);' % (id_, options)
+        return u'$("#" + this.thisId).select2(%s);' % options
+        #return u'$("#%s").select2(%s);' % (id_, options)
 
     def render(self, name, value, attrs=None, choices=()):
         """
@@ -491,8 +492,8 @@ class HeavySelect2Mixin(Select2Mixin):
                 return u"$('#%s').txt(%s);" % (id_, texts)
 
     def render_inner_js_code(self, id_, name, value, attrs=None, choices=(), *args):
-        js = u"$('#%s').change(django_select2.onValChange).data('userGetValText', %s);" \
-            % (id_, self.userGetValTextFuncName)
+        js = u"$('#' + this.thisId).change(django_select2.onValChange).data('userGetValText', %s);" \
+            % self.userGetValTextFuncName
         texts = self.render_texts_for_value(id_, value, choices)
         if texts:
             js += texts

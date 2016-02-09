@@ -46,7 +46,7 @@ class JSFunctionInContext(JSVar):
     pass
 
 
-def render_js_script(inner_code):
+def render_js_script(inner_code, id_):
     """
     This wraps ``inner_code`` string inside the following code block::
 
@@ -59,11 +59,17 @@ def render_js_script(inner_code):
     :rtype: :py:obj:`unicode`
     """
     return u"""
-    <script type="text/javascript">
+    <script type="text/javascript" class="select2_script">
+        if (!window['select2_inits'])
+            var select2_inits = {};
+        select2_inits['%s'] = {
+            'thisId': '%s',
+            'doInit': function() {%s}
+            };
         jQuery(function ($) {
-            %s
+            select2_inits['%s'].doInit();
         });
-    </script>""" % inner_code
+    </script>""" % (id_, id_, inner_code, id_)
 
 
 def extract_some_key_val(dct, keys):
@@ -113,7 +119,7 @@ def convert_py_to_js_data(val, id_):
     elif type(val) in [types.IntType, types.LongType, types.FloatType]:
         return force_unicode(val)
     elif isinstance(val, JSFunctionInContext):
-        return u"django_select2.runInContextHelper(%s, '%s')" % (val, id_)
+        return u"django_select2.runInContextHelper(%s, this.thisId)" % val
     elif isinstance(val, JSVar):
         return val  # No quotes here
     elif isinstance(val, dict):
