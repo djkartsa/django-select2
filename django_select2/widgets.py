@@ -209,7 +209,6 @@ class Select2Mixin(object):
         options = self.render_select2_options_code(options, id_)
 
         return u'$("#" + this.thisId).select2(%s);' % options
-        #return u'$("#%s").select2(%s);' % (id_, options)
 
     def render(self, name, value, attrs=None, choices=()):
         """
